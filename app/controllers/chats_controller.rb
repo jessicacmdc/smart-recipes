@@ -1,0 +1,37 @@
+class ChatsController < ApplicationController
+before_action :set_chat, only: [:show, :destroy]
+  def index
+    @chats = Chat.all
+  end
+
+  def new
+   @chat = Chat.new
+  end
+
+  def create
+    @chat = Chat.new(chat_params)
+    if @chat.save
+      redirect_to chat_path(@chat)
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def show; end
+
+  def destroy
+    @chat.destroy
+    redirect_to chats_path, status: :see_other
+  end
+
+  private
+
+  def chat_params
+    params.require(:chat).permit(:title)
+  end
+
+  def set_chat
+    @chat = Chat.find(params[:id])
+  end
+
+end
