@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "recipes#home"
+  root to: "pages#home"
 
   resources :chats, except: [:edit, :update] do
     resources :recipes, only: [:create]
