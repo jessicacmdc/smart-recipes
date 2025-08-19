@@ -8,6 +8,7 @@ class CreateRecipes < ActiveRecord::Migration[7.1]
       t.integer :required_time
       t.string :difficulty_level
       t.string :serves
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end
