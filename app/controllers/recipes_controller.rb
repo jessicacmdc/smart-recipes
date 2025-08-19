@@ -9,6 +9,16 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
   end
 
+  def create
+    @recipe = Recipe.new(recipe_params)
+    if @recipe.save
+      redirect_to recipe_path(@recipe), notice: 'recipe was successfully created.'
+    else
+      @recipes = @recipe.recipes
+      render "recipes/show", status: :unprocessable_entity
+    end
+  ;end
+
   def edit;end
 
   def destroy
@@ -20,5 +30,9 @@ class RecipesController < ApplicationController
 
   def set_recipe
     @recipe = Recipe.find(params[:id])
+  end
+
+   def recipe_params
+    params.require(:recipe).permit(:title, :ingredients, :instruction, :category, :required_time, :serves)
   end
 end
