@@ -1,1 +1,12 @@
-<h1>Hello world from index</h1>
+<div class='container'>
+  <h1>CHATS List</h1>
+  <ul>
+    <% @chats.each do |chat| %>
+            <li>
+        <%= link_to chat.title, chat_path(chat) %>
+        <%= link_to "🗑️", chat_path(chat), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: 'text-decoration-none' %>
+      </li>
+    <% end %>
+  </ul>
+  <%= link_to "Add Chat", new_chat_path, class: 'btn btn-primary' %>
+</div>
