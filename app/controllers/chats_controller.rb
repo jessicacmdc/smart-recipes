@@ -17,7 +17,10 @@ class ChatsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @chat = Chat.find(params[:id])
+    @message = Message.new
+  end
 
   def destroy
     @chat.destroy
