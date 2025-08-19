@@ -1,0 +1,11 @@
+<div id="recipes">
+  <% @recipes.each do |recipe| %>
+    <%= recipe.title %>
+    <%= recipe.ingredients %>
+    <%= recipe.instruction %>
+    <%= recipe.category %>
+    <%= recipe.required_time %>
+    <%= recipe.difficulty_level %>
+    <%= recipe.serves %>
+  <% end %>
+</div>
