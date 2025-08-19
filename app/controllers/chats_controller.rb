@@ -1,11 +1,11 @@
 class ChatsController < ApplicationController
-before_action :set_chat, only: [:show, :destroy]
+  before_action :set_chat, only: %i[show destroy]
   def index
     @chats = Chat.all
   end
 
   def new
-   @chat = Chat.new
+    @chat = Chat.new
   end
 
   def create
@@ -33,5 +33,4 @@ before_action :set_chat, only: [:show, :destroy]
   def set_chat
     @chat = Chat.find(params[:id])
   end
-
 end
