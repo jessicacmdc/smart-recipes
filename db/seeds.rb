@@ -27,14 +27,16 @@ puts "✅ Created #{User.count} users"
 
 puts "Seeding chats..."
 
-# Chats associated with users
-# chats = [
-#   { message: "Hello, this is Alice!", user: User.first },
-#   { message: "Hey Alice, Bob here!", user: User.second },
-#   { message: "Hi everyone, Charlie joined!", user: User.third },
-#   { message: "How's it going?", user: User.first }
-# ]
 
-# chats.each { |chat_data| Chat.create!(chat_data) }
+chats = [
+  { title: "Pancakes", user: User.first },
+  { title: "Chocolate Cake", user: User.second },
+  { title: "Spaghetti Carbonara", user: User.third },
+  { title: "Caesar Salad", user: User.first },
+  { title: "Apple Pie", user: User.second }
+]
 
-# puts "✅ Created #{Chat.count} chats"
+
+chats.each { |chat_data| Chat.create!(chat_data) }
+
+puts "✅ Created #{Chat.count} chats"
