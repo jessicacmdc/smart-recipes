@@ -60,9 +60,7 @@ recipes = [
       4. Heat a non-stick skillet over medium heat and lightly grease with butter.
       5. Pour 1/4 cup of batter per pancake onto the skillet.
       6. Cook until bubbles form on the surface, then flip and cook until golden brown.
-      7. Serve warm with syrup, fruits, or toppings of your choice.
-    "
-    ,
+      7. Serve warm with syrup, fruits, or toppings of your choice.",
     category: "Breakfast",
     required_time: 20,
     difficulty_level: "Easy",
@@ -87,8 +85,7 @@ recipes = [
       4. Gradually add dry ingredients to the wet mixture, alternating with milk.
       5. Pour batter into the prepared cake pan.
       6. Bake for 35 minutes or until a toothpick comes out clean.
-      7. Allow to cool, then frost or serve as desired."
-    ,
+      7. Allow to cool, then frost or serve as desired.",
     category: "Dessert",
     required_time: 60,
     difficulty_level: "Medium",
@@ -111,8 +108,7 @@ recipes = [
       4. Drain pasta, reserving a little cooking water.
       5. Quickly toss hot pasta with pancetta and remove from heat.
       6. Add egg and Parmesan mixture, stirring quickly to create a creamy sauce.
-      7. Adjust consistency with reserved pasta water if needed and serve immediately."
-    ,
+      7. Adjust consistency with reserved pasta water if needed and serve immediately.",
     category: "Main Dish",
     required_time: 30,
     difficulty_level: "Medium",
@@ -133,8 +129,7 @@ recipes = [
       3. Add croutons and grated Parmesan.
       4. Drizzle Caesar dressing over the salad.
       5. Toss gently to coat all ingredients evenly.
-      6. Serve immediately as a side dish or light meal."
-    ,
+      6. Serve immediately as a side dish or light meal.",
     category: "Salad",
     required_time: 15,
     difficulty_level: "Easy",
@@ -160,8 +155,7 @@ recipes = [
       6. Dot with small pieces of butter on top.
       7. Cover with second crust if desired, seal edges, and make small slits on top.
       8. Bake for 50 minutes or until golden brown.
-      9. Let cool before serving."
-    ,
+      9. Let cool before serving.",
     category: "Dessert",
     required_time: 90,
     difficulty_level: "Hard",
