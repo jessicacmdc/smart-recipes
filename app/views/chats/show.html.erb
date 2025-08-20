@@ -1,16 +1,29 @@
-<div class='container m-4'>
+<div class='chat-container container m-4'>
   <h1><%= @chat.title %></h1>
-  <%= link_to "Home", chats_path, class: 'btn btn-warning' %>
+  <%= link_to "Home", chats_path, class: 'btn btn-warning mb-3' %>
 </div>
-<div class='container m-4'>
-  <%= simple_form_for([@chat, @message]) do |f| %>
-    <%= f.input :content, label: 'Your Message', placeholder: 'Ask something' %>
-    <%= f.submit "⌲", class: 'btn btn-success'%>
-    <%= link_to "Cancel", chats_path, class: 'btn btn-warning' %>
-  <% end %>
+<div class="container m-4">
+    <div class="card p-3 d-flex">
+      <%= simple_form_for([@chat, @message]) do |f| %>
+        <%= f.input :content, label: false, placeholder: 'Type a message...'%>
+        <%= f.submit "Send", class: 'btn btn-success' %>
+      <% end %>
+  </div>
 </div>
-<div>
+<div class="container mt-3">
   <% @chat.messages.each do |message| %>
-    <p><%= message.content %></p>
+    <% if message.from_user %>
+      <div class="d-flex justify-content-end mb-2">
+        <div class="bg-success text-white p-2 rounded" style="max-width: 70%;">
+          <%= message.content %>
+        </div>
+      </div>
+    <% else %>
+      <div class="d-flex justify-content-start mb-2">
+        <div class="bg-light border p-2 rounded" style="max-width: 70%;">
+          <%= message.content %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 </div>
