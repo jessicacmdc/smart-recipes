@@ -1,11 +1,14 @@
-<div id="recipes">
-  <% @recipes.each do |recipe| %>
-    <%= recipe.title %>
-    <%= recipe.ingredients %>
-    <%= recipe.instruction %>
-    <%= recipe.category %>
-    <%= recipe.required_time %>
-    <%= recipe.difficulty_level %>
-    <%= recipe.serves %>
-  <% end %>
+<div id="recipes" class="container my-4 p-4 bg-white rounded-3 d-flex flex-column justify-content-between align-items-center"  style="height: 80vh">
+  <div class=" d-flex flex-column justify-content-center align-items-center h-100">
+    <h1 class="my-4" ><%= @recipe.title %></h1>
+   <h5><%= @recipe.ingredients %></h5>
+    <p><%= @recipe.instruction %></p>
+  </div>
+  <ul class="list-unstyled d-flex justify-content-between align-items-center w-100 p-5 bg-light m-0 h-10" style="height: 20px" >
+      <li >category: <%= @recipe.category %></li>
+      <li >required time: <%= @recipe.required_time %></li>
+      <li >difficulty level: <%= @recipe.difficulty_level %></li>
+      <li >serves: <%=@recipe.serves %></li>
+    </ul>
+
 </div>
