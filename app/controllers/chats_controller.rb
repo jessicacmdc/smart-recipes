@@ -18,7 +18,9 @@ class ChatsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @message = Message.new
+  end
 
   def destroy
     @chat.destroy
