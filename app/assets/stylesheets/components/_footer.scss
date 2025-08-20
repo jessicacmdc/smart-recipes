@@ -1,0 +1,28 @@
+.footer {
+  background-color: $black;
+  color: $white;
+  font-size: 16px;
+  height: 100px;
+  padding: 50px 80px;
+}
+
+  .footer-icon {
+    i {
+      color: $white;
+    }
+  }
+
+    .footer-links {
+    display: flex;
+    align-items: right;
+    gap: 42px;
+
+    a {
+      color: $white;
+      text-decoration: none;
+    }
+
+    span {
+      color: $white;
+    }
+  }
