@@ -1,5 +1,14 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-
-<%# <p>Log in </p>
-<p>Sign up </p> %>
+<section class="text-center my-5 d-flex flex-column align-items-center container-section">
+  <div class="container-main d-flex flex-column align-items-center">
+    <div class="container-content d-flex flex-column align-items-center mb-4">
+      <div class="container-title-block mb-3">
+        <h1 class="fw-bold container-title">Welcome to Smart Recipes</h1>
+        <p class="fs-4 container-subtitle">Turn ingredients into amazing dishes</p>
+      </div>
+      <p class="text-muted container-description">
+        Ask for ideas, get quick recipes, and customize your menu with AI that understands your taste.
+      </p>
+    </div>
+    <%= link_to "Sign up", new_user_registration_path, class: "btn btn-dark btn-lg container-btn" %>
+  </div>
+</section>
