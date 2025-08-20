@@ -1,12 +1,63 @@
-<div class='container'>
-  <h1>CHATS List</h1>
-  <ul>
-    <% @chats.each do |chat| %>
-            <li>
-        <%= link_to chat.title, chat_path(chat) %>
-        <%= link_to "🗑️", chat_path(chat), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: 'text-decoration-none' %>
-      </li>
-    <% end %>
-  </ul>
-  <%= link_to "Add Chat", new_chat_path, class: 'btn btn-primary' %>
+<div class="layout-main container-fluid">
+  <div class="row h-100">
+
+    <!-- Sidebar -->
+    <div class="col-12 col-md-3 col-lg-2 border-end d-flex flex-column p-3">
+
+      <!-- Chats -->
+      <% if @chats.present? %>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Chats</h5>
+            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChats" aria-expanded="false" aria-controls="collapseChats">
+              +
+            </button>
+          </div>
+          <div class="collapse mt-2" id="collapseChats">
+            <ul class="list-unstyled flex-grow-1">
+              <% @chats.each do |chat| %>
+                <li class="d-flex justify-content-between align-items-center mb-2">
+                  <%= link_to chat.title, chat_path(chat), class: "text-decoration-none" %>
+                  <%= link_to "🗑️", chat_path(chat), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-decoration-none" %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Recipes -->
+      <% if @recipes.present? %>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Recipes</h5>
+            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRecipes" aria-expanded="false" aria-controls="collapseRecipes">
+              +
+            </button>
+          </div>
+          <div class="collapse mt-2" id="collapseRecipes">
+            <ul class="list-unstyled flex-grow-1">
+              <% @recipes.each do |recipe| %>
+                <li class="d-flex justify-content-between align-items-center mb-2">
+                  <%= link_to recipe.title, recipe_path(recipe), class: "text-decoration-none" %>
+                  <%= link_to "🗑️", recipe_path(recipe), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-decoration-none" %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+
+    <!-- Content -->
+    <div class="col-12 col-md-9 col-lg-10 d-flex flex-column justify-content-center align-items-center text-center p-4">
+      <div class="mb-4">
+        <h1 class="fw-bold container-title">Hello, <%= current_user.username %></h1>
+        <p class="container-subtitle">How can I assist you today?</p>
+      </div>
+      <%= link_to "New chat", new_chat_path, class: "btn btn-dark btn-lg container-btn" %>
+    </div>
+
+  </div>
 </div>
