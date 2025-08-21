@@ -27,20 +27,15 @@ class MessagesController < ApplicationController
     Always wait for the user’s request. Only generate a recipe when the user explicitly says so.
   PROMPT
 
-
   def create
-
     @chat = Chat.find(params[:chat_id])
     @message = @chat.messages.build(message_params)
     # @message = Message.new(message_params)
-    @message.chat = @chat
     @message.role = "user"
     if @message.valid?
       @chat.with_instructions(instructions).ask(@message.content)
 
-      if @chat.title == "Untitled"
-        @chat.generate_title_from_first_message
-      end
+      @chat.generate_title_from_first_message if @chat.title == "Untitled"
 
       respond_to do |format|
         format.turbo_stream
@@ -49,15 +44,12 @@ class MessagesController < ApplicationController
     else
       render "chats/show", status: :unprocessable_entity
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { chat: @chat, message: @message }) }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form",
+                                                                   locals: { chat: @chat, message: @message })
+        end
         format.html { render "chats/show", status: :unprocessable_entity }
       end
-    end
-  end
-
-  def messages_content
-    @chat.messages.each do |message|
-      message.content
     end
   end
 
