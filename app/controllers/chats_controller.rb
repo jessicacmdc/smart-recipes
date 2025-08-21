@@ -34,6 +34,6 @@ class ChatsController < ApplicationController
   # end
 
   def set_chat
-    @chat = Chat.find(params[:id])
+    @chat = Chat.includes(:messages).find(params[:id])
   end
 end

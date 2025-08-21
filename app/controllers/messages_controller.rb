@@ -29,9 +29,10 @@ class MessagesController < ApplicationController
 
   def create
     @chat = Chat.find(params[:chat_id])
-    @message = @chat.messages.build(message_params)
+    @message = Message.new(message_params)
     # @message = Message.new(message_params)
     @message.role = "user"
+    @message.chat = @chat
     if @message.valid?
       @chat.with_instructions(instructions).ask(@message.content)
 
@@ -42,7 +43,7 @@ class MessagesController < ApplicationController
         format.html { redirect_to chat_path(@chat) }
       end
     else
-      render "chats/show", status: :unprocessable_entity
+      # render "chats/show", status: :unprocessable_entity
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form",
