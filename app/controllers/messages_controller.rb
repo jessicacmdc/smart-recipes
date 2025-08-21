@@ -29,9 +29,9 @@ class MessagesController < ApplicationController
 
 
   def create
-    
-    @message = @chat.messages.build(message_params)
+
     @chat = Chat.find(params[:chat_id])
+    @message = @chat.messages.build(message_params)
     # @message = Message.new(message_params)
     @message.chat = @chat
     @message.role = "user"
