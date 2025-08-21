@@ -8,7 +8,7 @@ Your behavior has two modes:
 2. **Recipe mode**: Only switch to this mode when the user explicitly asks you to create or generate a recipe. When generating a recipe, follow this exact structure:
 
 - title: string (short recipe name)
-- ingredients: text (list of ingredients, separated by commas or line breaks)
+- ingredients: text (list of hash with 2 keys (item and amount), separated by commas or line breaks)
 - instruction: text (step-by-step cooking method in plain text)
 - required_time: integer (total time in minutes, no units, just the number)
 - serves: string (description of portion size, e.g. "2 people", "4 people")
@@ -23,18 +23,21 @@ Your behavior has two modes:
   • Grilling & BBQ
 
 Always wait for the user’s request. Only generate a recipe when the user explicitly says so.'
+
+
   def create
     @chat = Chat.find(params[:chat_id])
 
     @message = Message.new(message_params)
     @message.chat = @chat
     @message.from_user = true
+
+
     if @message.save
       chat = RubyLLM.chat
 
       response = chat.with_instructions(SYSTEM_PROMPT).ask(messages_content)
-      Message.create(from_user: 'false', content: response.content, chat: @chat)
-      puts response.content
+      Message.create(from_user: false, content: response.content, chat: @chat)
 
       redirect_to chat_path(@chat)
     else
@@ -47,6 +50,36 @@ Always wait for the user’s request. Only generate a recipe when the user expli
     @chat.messages.each do |message|
       message.content
     end
+  end
+
+
+  def convert_to_recipe()
+    @chat = Chat.find(params[:chat_id])
+    @message = @chat.messages.find(params[:id])
+    content = @message.content
+    ingredients_text = content[/\*\*Ingredients:\*\*\s*\n(.+?)\n\n/m, 1]
+
+    ingredients_array = ingredients_text.split("\n").map do |line|
+      line = line.sub(/^\s*-\s*/, "").strip  # remove leading dash and spaces
+      if match = line.match(/^([\d\/\s\w]+)\s+(.+)$/)
+        { amount: match[1].strip, item: match[2].strip }
+      else
+        { item: line, amount: "" }  # fallback if no amount detected
+      end
+    end
+
+
+    Recipe.create!(title: content.downcase[/\*\*title:\*\*\s*(.+)/, 1],
+    ingredients: ingredients_array,
+    instruction: content.downcase[/\*\*instructions:\*\*\s*\n(.+?)\n\n/m, 1],
+    required_time: content.downcase[/\*\*required time:\*\*\s*(\d+)/, 1].to_i,
+    serves: content.downcase[/\*\*serves:\*\*\s*(.+)/, 1],
+    difficulty_level: content.downcase[/\*\*difficulty level:\*\*\s*(.+)/, 1],
+    category: content.downcase[/\*\*category:\*\*\s*(.+)/, 1],
+    user_id: @chat.user_id
+  )
+
+  redirect_to recipes_path
   end
 
   private

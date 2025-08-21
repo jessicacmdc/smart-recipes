@@ -22,6 +22,7 @@
       <div class="d-flex justify-content-start mb-2">
         <div class="bg-light border p-2 rounded" style="max-width: 70%;">
           <%= message.content %>
+          <%= button_to "Convert to Recipe", convert_to_recipe_chat_message_path(@chat, message), method: :post, class: "btn btn-primary btn-sm mt-2" %>
         </div>
       </div>
     <% end %>
