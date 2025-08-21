@@ -4,7 +4,9 @@ Rails.application.routes.draw do
 
   resources :recipes
   resources :chats, except: [:edit, :update] do
-    resources :messages, except: [:new]
+    resources :messages, except: [:new] do
+    post :convert_to_recipe, on: :member
+  end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
