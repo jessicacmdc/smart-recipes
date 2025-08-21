@@ -1,0 +1,22 @@
+.layout-main {
+  height: 80vh;
+  background-color: $white;
+
+  .container-title {
+    font-size: 48px;
+  }
+
+  .container-subtitle {
+    font-size: 24px;
+    color: $gray;
+  }
+
+   .container-btn {
+    border-radius: 12px;
+    padding: 16px 32px;
+    width: 308px;
+    background-color: $black;
+    color: $off-white;
+  }
+
+}
