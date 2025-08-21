@@ -79,6 +79,7 @@ test:
 #
 production:
   <<: *default
+  adapter: postgresql
   database: smart_recipes_production
   username: smart_recipes
   password: <%= ENV["SMART_RECIPES_DATABASE_PASSWORD"] %>
