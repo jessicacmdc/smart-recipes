@@ -9,7 +9,7 @@ class ChatsController < ApplicationController
   end
 
   def create
-    @chat = Chat.new(chat_params)
+    @chat = Chat.new(title: "Untitled", model_id: "gpt-4.1-nano")
     @chat.user = current_user
     if @chat.save
       redirect_to chat_path(@chat)
@@ -29,9 +29,9 @@ class ChatsController < ApplicationController
 
   private
 
-  def chat_params
-    params.require(:chat).permit(:title)
-  end
+  # def chat_params
+  #   params.require(:chat).permit(:title)
+  # end
 
   def set_chat
     @chat = Chat.find(params[:id])

@@ -1,5 +1,8 @@
 class MessagesController < ApplicationController
-  SYSTEM_PROMPT = 'You are a helpful cooking assistant and professional recipe generator.
+
+  SYSTEM_PROMPT = <<~PROMPT
+  
+You are a helpful cooking assistant and professional recipe generator.
 
 Your behavior has two modes:
 
@@ -22,11 +25,18 @@ Your behavior has two modes:
   • Drinks & Smoothies
   • Grilling & BBQ
 
-Always wait for the user’s request. Only generate a recipe when the user explicitly says so.'
+Always wait for the user’s request. Only generate a recipe when the user explicitly says so.
+PROMPT
 
 
   def create
     @chat = Chat.find(params[:chat_id])
+    @message = @chat.messages.build(message_params)
+    # @message = Message.new(message_params)
+    @message.role = "user"
+    if @message.valid?
+      @chat.with_instructions(instructions).ask(@message.content)
+
 
     @message = Message.new(message_params)
     @message.chat = @chat
@@ -40,16 +50,30 @@ Always wait for the user’s request. Only generate a recipe when the user expli
       Message.create(from_user: false, content: response.content, chat: @chat)
 
       redirect_to chat_path(@chat)
+
+      @chat.generate_title_from_first_message if @chat.title == "Untitled"
+
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to chat_path(@chat) }
+      end
+
     else
       render "chats/show", status: :unprocessable_entity
-      # render "chats/show", status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form",
+                                                                   locals: { chat: @chat, message: @message })
+        end
+        format.html { render "chats/show", status: :unprocessable_entity }
+      end
     end
   end
 
-  def messages_content
-    @chat.messages.each do |message|
-      message.content
-    end
+  private
+
+  def chat_context
+    "Here is the context of the chat the user is working on:"
   end
 
 
@@ -84,8 +108,11 @@ Always wait for the user’s request. Only generate a recipe when the user expli
 
   private
 
+  def instructions
+    [SYSTEM_PROMPT, chat_context].compact.join("\n\n")
+  end
+
   def message_params
-    params.require(:message).permit(:content, :from_user)
-    #  @message.from_user = true
+    params.require(:message).permit(:content)
   end
 end
