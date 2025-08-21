@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
 
   SYSTEM_PROMPT = <<~PROMPT
-  
+
 You are a helpful cooking assistant and professional recipe generator.
 
 Your behavior has two modes:
@@ -114,5 +114,7 @@ PROMPT
 
   def message_params
     params.require(:message).permit(:content)
+  end
+
   end
 end
