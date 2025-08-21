@@ -1,5 +1,6 @@
 class Chat < ApplicationRecord
   acts_as_chat
+
   belongs_to :user
   has_many :messages, dependent: :destroy
 
@@ -14,4 +15,5 @@ class Chat < ApplicationRecord
     response = RubyLLM.chat.with_instructions(TITLE_PROMPT).ask(first_user_message.content)
     update(title: response.content)
   end
+
 end
