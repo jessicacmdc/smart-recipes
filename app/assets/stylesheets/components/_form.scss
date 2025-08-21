@@ -1,10 +1,30 @@
 .login-form {
   background-color: $off-white;
   border: 1px solid $light-gray;
-  border-radius: 15px;
-  padding: 30px;
+  border-radius: 12px;
+  padding: 60px;
   margin: 30px;
+
+  a {
+    text-decoration: none;
+    color: $black;
+    margin-bottom: 3px;
+  }
 }
+
+.btn-login {
+    border-radius: 12px;
+    padding: 8px 8px;
+    width: 308px;
+    background-color: $black;
+    color: $off-white;
+
+  &:hover {
+    background-color: $off-white;
+    border: 1px solid $black;
+  }
+}
+
 
 .form-actions {
 
