@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
-  SYSTEM_PROMPT = 'You are a helpful cooking assistant and professional recipe generator.
+  SYSTEM_PROMPT = <<~PROMPT
+   'You are a helpful cooking assistant and professional recipe generator.
 
 Your behavior has two modes:
 
@@ -23,23 +24,31 @@ Your behavior has two modes:
   • Grilling & BBQ
 
 Always wait for the user’s request. Only generate a recipe when the user explicitly says so.'
+ PROMPT
+
   def create
     @chat = Chat.find(params[:chat_id])
 
     @message = Message.new(message_params)
     @message.chat = @chat
-    @message.from_user = true
-    if @message.save
-      chat = RubyLLM.chat
 
-      response = chat.with_instructions(SYSTEM_PROMPT).ask(messages_content)
-      Message.create(from_user: 'false', content: response.content, chat: @chat)
-      puts response.content
+    @message.role = "user"
+    if @message.valid?
+      @chat.with_instructions(instructions).ask(@message.content)
 
-      redirect_to chat_path(@chat)
+      if @chat.title == "Untitled"
+        @chat.generate_title_from_first_message
+      end
+
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to chat_path(@chat) }
+      end
     else
-      render "chats/show", status: :unprocessable_entity
-      # render "chats/show", status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { chat: @chat, message: @message }) }
+        format.html { render "chats/show", status: :unprocessable_entity }
+      end
     end
   end
 
@@ -51,8 +60,15 @@ Always wait for the user’s request. Only generate a recipe when the user expli
 
   private
 
+  def chat_context
+    "Here is the context of the chat the user is working on:"
+  end
+
+  def instructions
+    [SYSTEM_PROMPT, chat_context].compact.join("\n\n")
+  end
+
   def message_params
-    params.require(:message).permit(:content, :from_user)
-    #  @message.from_user = true
+    params.require(:message).permit(:content)
   end
 end
