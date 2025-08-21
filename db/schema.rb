@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_21_131718) do
 
   create_table "messages", force: :cascade do |t|
     t.string "content"
+    t.boolean "from_user"
     t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -32,7 +33,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_21_131718) do
     t.integer "input_tokens"
     t.integer "output_tokens"
     t.bigint "tool_call_id"
-    t.string "role"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
   end
