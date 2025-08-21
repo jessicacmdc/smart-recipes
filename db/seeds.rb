@@ -10,9 +10,9 @@
 
 # Clear old data
 Chat.destroy_all
-User.destroy_all
 Recipe.destroy_all
 Message.destroy_all
+User.destroy_all
 
 puts "Seeding users..."
 # Users for Devise must have email and password
@@ -29,11 +29,11 @@ puts "✅ Created #{User.count} users"
 
 puts "Seeding chats..."
 chats = [
-  { title: "Pancakes", user: User.first },
-  { title: "Chocolate Cake", user: User.second },
-  { title: "Spaghetti Carbonara", user: User.third },
-  { title: "Caesar Salad", user: User.first },
-  { title: "Apple Pie", user: User.second }
+  { title: "Pancakes", user: User.first, model_id:"gpt-4.1-nano" },
+  { title: "Chocolate Cake", user: User.second, model_id:"gpt-4.1-nano" },
+  { title: "Spaghetti Carbonara", user: User.third, model_id:"gpt-4.1-nano" },
+  { title: "Caesar Salad", user: User.first, model_id:"gpt-4.1-nano" },
+  { title: "Apple Pie", user: User.second, model_id:"gpt-4.1-nano" }
 ]
 
 chats.each { |chat_data| Chat.create!(chat_data) }
@@ -172,20 +172,20 @@ puts "✅ Created #{Recipe.count} recipes"
 
 puts "Seeding messages..."
 messages = [
-  { content: "Hey, do you have a good pancake recipe?", from_user: true, chat: Chat.first },
-  { content: "Yes! Try adding vanilla extract for extra flavor.", from_user: false, chat: Chat.first },
+  { content: "Hey, do you have a good pancake recipe?", role: "user", chat: Chat.first },
+  { content: "Yes! Try adding vanilla extract for extra flavor.", role: "assistant", chat: Chat.first },
 
-  { content: "Your chocolate cake was amazing!", from_user: true, chat: Chat.second },
-  { content: "Thanks! I can share the recipe if you want.", from_user: false, chat: Chat.second },
+  { content: "Your chocolate cake was amazing!", role: "user", chat: Chat.second },
+  { content: "Thanks! I can share the recipe if you want.", role: "assistant", chat: Chat.second },
 
-  { content: "Is carbonara difficult to make?", from_user: true, chat: Chat.third },
-  { content: "Not really, just don’t scramble the eggs!", from_user: false, chat: Chat.third },
+  { content: "Is carbonara difficult to make?", role: "user", chat: Chat.third },
+  { content: "Not really, just don’t scramble the eggs!", role: "assistant", chat: Chat.third },
 
-  { content: "Caesar salad is my favorite starter.", from_user: true, chat: Chat.fourth },
-  { content: "Same here, quick and fresh.", from_user: false, chat: Chat.fourth },
+  { content: "Caesar salad is my favorite starter.", role: "user", chat: Chat.fourth },
+  { content: "Same here, quick and fresh.", role: "assistant", chat: Chat.fourth },
 
-  { content: "I love apple pie in autumn.", from_user: true, chat: Chat.fifth },
-  { content: "Yes, especially with a scoop of vanilla ice cream!", from_user: false, chat: Chat.fifth }
+  { content: "I love apple pie in autumn.", role: "user", chat: Chat.fifth },
+  { content: "Yes, especially with a scoop of vanilla ice cream!", role: "assistant", chat: Chat.fifth }
 ]
 
 messages.each { |msg_data| Message.create!(msg_data) }

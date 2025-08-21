@@ -1,7 +1,6 @@
 <div class='container m-4'>
   <h1> Create a Chat </h1>
   <%= simple_form_for(@chat) do |f| %>
-    <%= f.input :title %>
     <%= f.submit class: 'btn btn-success'%>
     <%= link_to "Cancel", chats_path, class: 'btn btn-warning' %>
   <% end %>
