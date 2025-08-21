@@ -1,15 +1,13 @@
-<div class='chat-container container m-4'>
+<div class='chat-container container m-4' id='chat_title'>
   <h1><%= @chat.title %></h1>
   <%= link_to "Home", chats_path, class: 'btn btn-warning mb-3' %>
 </div>
 <div class="container m-4">
-    <div class="card p-3 d-flex">
-      <%= simple_form_for([@chat, @message]) do |f| %>
-        <%= f.input :content, label: false, placeholder: 'Type a message...'%>
-        <%= f.submit "Send", class: 'btn btn-success' %>
-      <% end %>
+  <div class="card p-3 d-flex" id='new_message'>
+    <%= render 'messages/form', { message: @message, chat: @chat} %>
   </div>
 </div>
+
 <div class="container mt-3">
   <% @chat.messages.order(:created_at).where.not(role: 'system').each do |message| %>
     <% if message.role == "user" %>
