@@ -32,29 +32,14 @@ PROMPT
   def create
     @chat = Chat.find(params[:chat_id])
     @message = Message.new(message_params)
-    # @message = Message.new(message_params)
     @message.role = "user"
     @message.chat = @chat
     if @message.valid?
       @chat.with_instructions(instructions).ask(@message.content)
 
-
-      # @message = Message.new(message_params)
-      # @message.chat = @chat
-      # @message.from_user = true
-
-
-    # if @message.save
-    #   chat = RubyLLM.chat
-
-      # response = chat.with_instructions(SYSTEM_PROMPT).ask(messages_content)
-      # Message.create(role: 'assistant', content: response.content, chat: @chat)
-
-      # redirect_to chat_path(@chat)
-
       @chat.generate_title_from_first_message if @chat.title == "Untitled"
 
-      respond_to do |format|
+        respond_to do |format|
         format.turbo_stream
         format.html { redirect_to chat_path(@chat) }
       end
@@ -106,8 +91,6 @@ PROMPT
 
   redirect_to recipes_path
   end
-
-  private
 
   def instructions
     [SYSTEM_PROMPT, chat_context].compact.join("\n\n")
