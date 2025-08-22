@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :chats, except: [:edit, :update] do
     resources :messages, except: [:new] do
     post :convert_to_recipe, on: :member
-  end
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

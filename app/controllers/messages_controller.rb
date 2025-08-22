@@ -56,18 +56,11 @@ PROMPT
     end
   end
 
-  private
-
-  def chat_context
-    "Here is the context of the chat the user is working on:"
-  end
-
-
   def convert_to_recipe()
     @chat = Chat.find(params[:chat_id])
     @message = @chat.messages.find(params[:id])
     content = @message.content
-    ingredients_text = content[/\*\*Ingredients:\*\*\s*\n(.+?)\n\n/m, 1]
+    ingredients_text = content[/\*\*ingredients:\*\*\s*\n(.+?)\n\n/m, 1]
 
     ingredients_array = ingredients_text.split("\n").map do |line|
       line = line.sub(/^\s*-\s*/, "").strip  # remove leading dash and spaces
@@ -90,6 +83,12 @@ PROMPT
   )
 
   redirect_to recipes_path
+  end
+
+  private
+
+  def chat_context
+    "Here is the context of the chat the user is working on:"
   end
 
   def instructions
