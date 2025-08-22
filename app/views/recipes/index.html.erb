@@ -3,30 +3,30 @@
   <%= link_to "← Back", chats_path, class: "text-decoration-none"%> /
   <%= link_to "All Recipes", recipes_path, class: "text-decoration-none"%>
 
-  <h1 class="my-4 text-center text-primary fw-bold">All Recipes</h1>
+  <h1 class="my-4 text-center text-primary fw-bold" style="font-family:'Pacifico', cursive;">All Recipes</h1>
 
 <div class="row">
     <% @recipes.each do |recipe| %>
       <div id="recipes" class="d-flex flex-row justify-content-between border-bottom border-secondary-subtle p-3">
-                <div >
-                  <h3 class="card-title text-dark"><%= recipe.title %></h3>
-                  <p class="card-text text-muted mb-2">
-                    <i class="bi bi-clock"></i> <%= recipe.required_time %> mins ·
-                    <i class="bi bi-people"></i> Serves <%= recipe.serves %> ·
-                    <span class="badge bg-info text-dark"><%= recipe.difficulty_level %></span>
-                  </p>
+        <div >
+          <h3 class="card-title text-dark"><%= recipe.title %></h3>
+          <p class="card-text text-muted mb-2">
+            <i class="bi bi-clock"></i> <%= recipe.required_time %> mins ·
+            <i class="bi bi-people"></i> Serves <%= recipe.serves %> ·
+            <span class="badge bg-info text-dark"><%= recipe.difficulty_level %></span>
+          </p>
 
-                </div>
-                <div class="d-flex align-items-end justify-content-center flex-column" >
-                  <p class="card-text p-0 m-0"><strong>Category:</strong> <%= recipe.category %></p>
-                  <span><%= link_to "Show this recipe", recipe, class: "btn btn-sm btn-outline-primary mt-2" %></span>
-                     <%= button_to "Delete", recipe_path(recipe),
-                  method: :delete,
-                  data: { turbo_confirm: "Are you sure?" },
-                  class: "btn btn-sm btn-outline-danger mt-2" %>
-                </div>
+        </div>
+        <div class="d-flex align-items-end justify-content-center flex-column" >
+          <p class="card-text p-0 m-0"><strong>Category:</strong> <%= recipe.category %></p>
+          <span><%= link_to "Show this recipe", recipe, class: "btn btn-sm btn-outline-primary mt-2" %></span>
+              <%= button_to "Delete", recipe_path(recipe),
+          method: :delete,
+          data: { turbo_confirm: "Are you sure?" },
+          class: "btn btn-sm btn-outline-danger mt-2" %>
+        </div>
       </div>
 
     <% end %>
-</div>
+</div>  
 </div>
