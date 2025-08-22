@@ -6,12 +6,9 @@
 </div>
 <div class="container m-4">
     <div class="card p-3 d-flex" id='new_message'>
-      <%= simple_form_for([@chat, @message]) do |f| %>
-        <%= f.input :content, label: false, placeholder: 'Type a message...'%>
-        <%= f.submit "Send", class: 'btn btn-success' %>
-      <% end %>
+      <%= render 'messages/form', chat: @chat, message: Message.new %>
   </div>
 </div>
 <div class="container mt-3" id='messages'>
-<%= render 'messages/messages' , messages: @chat.messages%>
+<%= render 'messages/messages' , messages: @chat.messages.visible%>
 </div>
