@@ -7,6 +7,7 @@ class RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
+    find_category_image(@recipe.category)
   end
 
   def create
@@ -34,5 +35,20 @@ class RecipesController < ApplicationController
 
    def recipe_params
     params.require(:recipe).permit(:title, :ingredients, :instruction, :category, :required_time, :serves)
+  end
+
+    def find_category_image(category)
+    @category_img = case category
+     when "Breakfast"
+        "https://shorturl.at/ZCwFX"
+      when "Main Dish"
+        "https://shorturl.at/1dxIn"
+      when "Dessert"
+        "https://shorturl.at/2gDh0"
+      when "Salad"
+        "https://shorturl.at/DFnyA"
+      else
+        "https://shorturl.at/wPVwf"
+      end
   end
 end

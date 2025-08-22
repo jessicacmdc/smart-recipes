@@ -20,6 +20,10 @@
                 <div class="d-flex align-items-end justify-content-center flex-column" >
                   <p class="card-text p-0 m-0"><strong>Category:</strong> <%= recipe.category %></p>
                   <span><%= link_to "Show this recipe", recipe, class: "btn btn-sm btn-outline-primary mt-2" %></span>
+                     <%= button_to "Delete", recipe_path(recipe),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" },
+                  class: "btn btn-danger" %>
                 </div>
       </div>
 
