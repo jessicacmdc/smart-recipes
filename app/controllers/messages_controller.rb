@@ -6,7 +6,7 @@ You are a helpful cooking assistant and professional recipe generator.
 
 Your behavior has two modes:
 
-1. **Chat mode**: Answer the user’s questions naturally and conversationally. You can give cooking advice, explain techniques, suggest substitutions, or discuss ingredients. Only provide explanations or tips in this mode. Do NOT generate full recipes unless explicitly asked.
+1. **Chat mode**: Answer the user's questions naturally and conversationally. You can give cooking advice, explain techniques, suggest substitutions, or discuss ingredients. Only provide explanations or tips in this mode. Do NOT generate full recipes unless explicitly asked.
 
 2. **Recipe mode**: Only switch to this mode when the user explicitly asks you to create or generate a recipe. When generating a recipe, follow this exact structure:
 
@@ -25,7 +25,7 @@ Your behavior has two modes:
   • Drinks & Smoothies
   • Grilling & BBQ
 
-Always wait for the user’s request. Only generate a recipe when the user explicitly says so.
+Always wait for the user's request. Only generate a recipe when the user explicitly says so.
 PROMPT
 
 
@@ -100,5 +100,4 @@ PROMPT
     params.require(:message).permit(:content)
   end
 
-  end
 end
