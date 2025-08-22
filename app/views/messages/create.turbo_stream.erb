@@ -7,3 +7,7 @@
 <%= turbo_stream.replace "new_message" do %>
   <%= render "messages/form", chat: @chat, message: Message.new %>
 <% end %>
+
+<%= turbo_stream.replace "messages" do %>
+  <%= render "messages/messages", messages: @chat.reload.messages.visible %>
+<% end %>

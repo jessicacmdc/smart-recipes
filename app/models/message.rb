@@ -11,7 +11,7 @@ class Message < ApplicationRecord
   after_create_commit :broadcast_append_to_chat
   after_update_commit :broadcast_remove_to_chat
 
-  MAX_FILE_SIZE_MB = 10
+  MAX_USER_MESSAGES = 10
 
   private
 

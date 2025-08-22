@@ -35,9 +35,19 @@ PROMPT
     @message.role = "user"
     @message.chat = @chat
     if @message.valid?
-      @chat.with_instructions(instructions).ask(@message.content)
+      @chat.with_instructions(instructions).ask(@message.content) do |chunk|
+        next if chunk.content.blank?
+          message = @chat.messages.last
+          message.content += chunk.content
+          broadcast_message(message)
+        end
+
+    # broadcast_replace(@chat.messages.last)
+
 
       @chat.generate_title_from_first_message if @chat.title == "Untitled"
+       message = @chat.messages.last
+        broadcast_message(message)
 
         respond_to do |format|
         format.turbo_stream
@@ -45,12 +55,8 @@ PROMPT
       end
 
     else
-      # render "chats/show", status: :unprocessable_entity
       respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form",
-                                                                   locals: { chat: @chat, message: @message })
-        end
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { chat: @chat, message: @message }) }
         format.html { render "chats/show", status: :unprocessable_entity }
       end
     end
@@ -100,23 +106,9 @@ PROMPT
     params.require(:message).permit(:content)
   end
 
+  def broadcast_message(message)
+    Turbo::StreamsChannel.broadcast_replace_to(@chat, target: helpers.dom_id(message), partial: "messages/message", locals: { message: message })
+  end
+
+
 end
-
-
-
-
-######### to implement broadcast
-
-# @chat.with_instructions(instructions).ask(@message.content) do |chunk|
-#   next if chunk.content.blank? # skip empty chunks
-
-#   message = @chat.messages.last
-#   message.content += chunk.content
-#   broadcast_replace(message)
-# end
-# broadcast_replace(@chat.messages.last)
-# def broadcast_replace(message)
-#   Turbo::StreamsChannel.broadcast_replace_to(@chat, target: helpers.dom_id(message), partial: "messages/message", locals: { message: message })
-# end
-
-###############
