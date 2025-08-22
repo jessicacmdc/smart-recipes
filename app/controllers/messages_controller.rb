@@ -1,14 +1,10 @@
 class MessagesController < ApplicationController
 
-  SYSTEM_PROMPT = <<~PROMPT
+  SYSTEM_PROMPT_CHAT = <<~PROMPT
 
 You are a helpful cooking assistant and professional recipe generator.
 
-Your behavior has two modes:
-
-1. **Chat mode**: Answer the user's questions naturally and conversationally. You can give cooking advice, explain techniques, suggest substitutions, or discuss ingredients. Only provide explanations or tips in this mode. Do NOT generate full recipes unless explicitly asked.
-
-2. **Recipe mode**: Only switch to this mode when the user explicitly asks you to create or generate a recipe. When generating a recipe, follow this exact structure:
+Answer the user's questions naturally and conversationally. You can give cooking advice, explain techniques, suggest substitutions, or discuss ingredients. Only provide explanations or tips in this mode. Do NOT generate full recipes unless explicitly asked.
 
 - title: string (short recipe name)
 - ingredients: text (list of hash with 2 keys (item and amount), separated by commas or line breaks)
@@ -17,8 +13,8 @@ Your behavior has two modes:
 - serves: string (description of portion size, e.g. "2 people", "4 people")
 - difficulty_level: string, must be one of: Easy, Medium, Difficult
 - category: string, must be one of:
-  • Breakfast & Brunch
-  • Lunch & Dinner (Main Dishes)
+  • Breakfast
+  • Lunch & Dinner
   • Appetizers & Snacks
   • Salads & Sides
   • Desserts & Baking
@@ -26,6 +22,27 @@ Your behavior has two modes:
   • Grilling & BBQ
 
 Always wait for the user's request. Only generate a recipe when the user explicitly says so.
+PROMPT
+
+SYSTEM_PROMPT_RECIPE_GENERATOR =  <<~PROMPT
+You are a professional recipe generator API. I will provide a receipe as a single string, and you need to return in stirctly JSON only. Do respond with markdown or any other text.
+
+
+Please respond in the following JSON format, filling in the recipe data. for Difficulty and Category, you must choose an option provided:
+{
+   "title":"",
+   "ingredients":[
+      {
+         "item":"",
+         "amount":""
+      }
+   ],
+   "instruction": "",
+   "required_time":0,
+   "serves":"",
+   "difficulty_level":"Easy|Medium|Hard",
+   "category":"Breakfast & Brunch|Lunch & Dinner|Appetizers & Snacks|Salads & Sides|Desserts & Baking|Drinks & Smoothies|Grilling & BBQ"
+}
 PROMPT
 
 
@@ -60,25 +77,18 @@ PROMPT
     @chat = Chat.find(params[:chat_id])
     @message = @chat.messages.find(params[:id])
     content = @message.content
-    ingredients_text = content[/\*\*ingredients:\*\*\s*\n(.+?)\n\n/m, 1]
 
-    ingredients_array = ingredients_text.split("\n").map do |line|
-      line = line.sub(/^\s*-\s*/, "").strip  # remove leading dash and spaces
-      if match = line.match(/^([\d\/\s\w]+)\s+(.+)$/)
-        { amount: match[1].strip, item: match[2].strip }
-      else
-        { item: line, amount: "" }  # fallback if no amount detected
-      end
-    end
+    @response = RubyLLM.chat.with_instructions(SYSTEM_PROMPT_RECIPE_GENERATOR).ask(content)
 
+    recipe_hash = JSON.parse(@response.content)
 
-    Recipe.create!(title: content.downcase[/\*\*title:\*\*\s*(.+)/, 1],
-    ingredients: ingredients_array,
-    instruction: content.downcase[/\*\*instructions:\*\*\s*\n(.+?)\n\n/m, 1],
-    required_time: content.downcase[/\*\*required time:\*\*\s*(\d+)/, 1].to_i,
-    serves: content.downcase[/\*\*serves:\*\*\s*(.+)/, 1],
-    difficulty_level: content.downcase[/\*\*difficulty level:\*\*\s*(.+)/, 1],
-    category: content.downcase[/\*\*category:\*\*\s*(.+)/, 1],
+    Recipe.create!(title: recipe_hash["title"],
+    ingredients: recipe_hash["ingredients"],
+    instruction: recipe_hash["instruction"],
+    required_time: recipe_hash["required_time"],
+    serves: recipe_hash["serves"],
+    difficulty_level: recipe_hash["difficulty_level"],
+    category: recipe_hash["category"],
     user_id: @chat.user_id
   )
 
@@ -92,11 +102,10 @@ PROMPT
   end
 
   def instructions
-    [SYSTEM_PROMPT, chat_context].compact.join("\n\n")
+    [SYSTEM_PROMPT_CHAT, chat_context].compact.join("\n\n")
   end
 
   def message_params
     params.require(:message).permit(:content)
   end
-
 end
