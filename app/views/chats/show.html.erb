@@ -1,16 +1,18 @@
-<div class='chat-container container m-4' id='chat_title'>
+<div class='chat-container container m-4'>
   <h1><%= @chat.title %></h1>
   <%= link_to "Home", chats_path, class: 'btn btn-warning mb-3' %>
 </div>
 <div class="container m-4">
-  <div class="card p-3 d-flex" id='new_message'>
-    <%= render 'messages/form', { message: @message, chat: @chat} %>
+    <div class="card p-3 d-flex">
+      <%= simple_form_for([@chat, @message]) do |f| %>
+        <%= f.input :content, label: false, placeholder: 'Type a message...'%>
+        <%= f.submit "Send", class: 'btn btn-success' %>
+      <% end %>
   </div>
 </div>
-
 <div class="container mt-3">
-  <% @chat.messages.order(:created_at).where.not(role: 'system').each do |message| %>
-    <% if message.role == "user" %>
+  <% @chat.messages.each do |message| %>
+    <% if message.from_user %>
       <div class="d-flex justify-content-end mb-2">
         <div class="bg-success text-white p-2 rounded" style="max-width: 70%;">
           <%= message.content %>
@@ -20,7 +22,7 @@
       <div class="d-flex justify-content-start mb-2">
         <div class="bg-light border p-2 rounded" style="max-width: 70%;">
           <%= message.content %>
-          <%= button_to "Convert to Recipe", convert_to_recipe_chat_message_path(@chat, message), method: :post, class: "btn btn-primary btn-sm mt-2" %>
+              <%= button_to "Convert to Recipe", convert_to_recipe_chat_message_path(@chat, message), method: :post, class: "btn btn-primary btn-sm mt-2" %>
         </div>
       </div>
     <% end %>
