@@ -33,3 +33,15 @@
   margin-left: 8px;
 
 }
+
+.sidebar {
+  // position: fixed;
+  // top: 82px;
+  // bottom: 100px;
+  // left: 0;
+  width: 250px;
+  border-right: 1px solid #ddd;
+  background-color: #fff;
+  padding: 1rem;
+  overflow-y: auto;
+}
