@@ -6,6 +6,13 @@ gem "ruby_llm"
 gem "devise"
 gem "solid_cable"
 
+group :development do
+  # ...
+  gem "httplog"
+  gem "pry-byebug"
+  gem "pry-rails"
+end
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.5", ">= 7.1.5.2"
 
