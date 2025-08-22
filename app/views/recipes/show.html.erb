@@ -1,12 +1,12 @@
 
-<div id="recipes" class="container shadow-sm position-relative my-4 bg-white rounded-5 p-0 "  style="height: 80vh;  overflow: hidden">
+<div id="recipes" class="container shadow-sm position-relative my-4 bg-white rounded-5 p-0 "  style="height: 80vh; width: 80vw;   overflow: hidden">
     <div class="p-4">
       <%= link_to "← Back", chats_path, class: "text-decoration-none" %> /
       <%= link_to "All Recipes", recipes_path, class: "text-decoration-none" %> /
       <%= link_to @recipe.title, '#', class: "text-decoration-none" %>
-    </div>  
+    </div>
 
-  <div class="my-2 text-center  p-4 row d-flex justify-content-center align-items-center" style="height: 90px" >
+  <div class=" text-center row d-flex justify-content-center align-items-center"  >
     <h1 class="fw-bold" style="font-family:'Pacifico', cursive;"><%= @recipe.title %></h1>
   </div>
   <div class="row px-5">
@@ -20,11 +20,11 @@
         <% @recipe.ingredients.each do |ingredient| %>
         <p ><%=ingredient["item"] %>:<%=ingredient["amount"]%></p>
         <%end%>
-      </div>
-      <div class="col-8 d-flex flex-column justify-content-start align-items-start">
-        <h5 class="mx-4" style="font-family:'Pacifico', cursive;">instruction:</h5>
-        <p class="text-start lh-lg mx-4" style="white-space: pre-line;"><%= @recipe.instruction %></p>
-      </div>
+    </div>
+    <div class="col-8 d-flex flex-column justify-content-start align-items-start">
+      <h5 class="mx-4" style="font-family:'Pacifico', cursive;">instruction:</h5>
+      <p class="text-start lh-lg mx-4" style="white-space: pre-line;"><%= @recipe.instruction %></p>
+    </div>
 
     </div>
 

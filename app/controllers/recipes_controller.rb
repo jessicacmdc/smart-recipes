@@ -39,14 +39,14 @@ class RecipesController < ApplicationController
 
     def find_category_image(category)
     @category_img = case category
-     when "Breakfast"
+     when "Breakfast & Brunch"
         "https://shorturl.at/ZCwFX"
-      when "Main Dish"
+      when "Lunch & Dinner"
         "https://shorturl.at/1dxIn"
-      when "Dessert"
+      when "Appetizers & Snacks"
         "https://shorturl.at/2gDh0"
       when "Salad"
-        "https://shorturl.at/DFnyA"
+        "Salads & Sides"
       else
         "https://shorturl.at/wPVwf"
       end

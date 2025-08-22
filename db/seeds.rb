@@ -19,7 +19,8 @@ puts "Seeding users..."
 users = [
   { username: "Alice", email: "alice@example.com", password: "password" },
   { username: "Bob", email: "bob@example.com", password: "password" },
-  { username: "Charlie", email: "charlie@example.com", password: "password" }
+  { username: "Charlie", email: "charlie@example.com", password: "password" },
+  { username: "Recipe Hacker", email: "test@test.com", password: "password" }
 ]
 
 users.each { |user_data| User.create!(user_data) }
