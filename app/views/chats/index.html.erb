@@ -55,8 +55,10 @@
       <div class="mb-4">
         <h1 class="fw-bold container-title">Hello, <%= current_user.username %></h1>
         <p class="container-subtitle">How can I assist you today?</p>
+        <%= simple_form_for(@chat) do |f| %>
+          <%= f.submit class: 'btn btn-dark btn-lg container-btn'%>
+        <% end %>
       </div>
-      <%= link_to "New chat", new_chat_path, class: "btn btn-dark btn-lg container-btn" %>
     </div>
 
   </div>
