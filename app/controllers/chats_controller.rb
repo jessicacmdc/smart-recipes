@@ -2,6 +2,7 @@ class ChatsController < ApplicationController
   before_action :set_chat, only: %i[show destroy]
   def index
     @chats = Chat.all
+    @chat = Chat.new
   end
 
   def new

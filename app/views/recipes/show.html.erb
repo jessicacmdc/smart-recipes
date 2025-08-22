@@ -1,10 +1,18 @@
+
 <div id="recipes" class="container shadow-sm position-relative my-4 bg-white rounded-5 p-0 "  style="height: 80vh;  overflow: hidden">
+    <div class="p-4">
+      <%= link_to "← Back", chats_path, class: "text-decoration-none" %> /
+      <%= link_to "All Recipes", recipes_path, class: "text-decoration-none" %> /
+      <%= link_to @recipe.title, '#', class: "text-decoration-none" %>
+    </div>  
+
   <div class="my-2 text-center  p-4 row d-flex justify-content-center align-items-center" style="height: 90px" >
     <h1 class="fw-bold" style="font-family:'Pacifico', cursive;"><%= @recipe.title %></h1>
   </div>
   <div class="row px-5">
       <div class="col-3">
       <img src="<%= @category_img %>"  class="rounded-5 mb-4" alt="food" style="height: 350px; width: 230px">
+
     </div>
     <div class="row  col-9">
         <div class="col-4 text-start lh-1 d-flex flex-column  justify-content-start align-items-start">
