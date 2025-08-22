@@ -100,5 +100,23 @@ PROMPT
     params.require(:message).permit(:content)
   end
 
-  end
 end
+
+
+
+
+######### to implement broadcast
+
+# @chat.with_instructions(instructions).ask(@message.content) do |chunk|
+#   next if chunk.content.blank? # skip empty chunks
+
+#   message = @chat.messages.last
+#   message.content += chunk.content
+#   broadcast_replace(message)
+# end
+# broadcast_replace(@chat.messages.last)
+# def broadcast_replace(message)
+#   Turbo::StreamsChannel.broadcast_replace_to(@chat, target: helpers.dom_id(message), partial: "messages/message", locals: { message: message })
+# end
+
+###############

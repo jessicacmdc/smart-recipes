@@ -29,10 +29,6 @@ class ChatsController < ApplicationController
 
   private
 
-  # def chat_params
-  #   params.require(:chat).permit(:title)
-  # end
-
   def set_chat
     @chat = Chat.includes(:messages).find(params[:id])
   end
