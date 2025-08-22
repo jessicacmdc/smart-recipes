@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :load_sidebar_data
 
   def after_sign_in_path_for(_resource)
     chats_path
@@ -12,5 +13,10 @@ class ApplicationController < ActionController::Base
 
     # For additional in app/views/devise/registrations/edit.html.erb
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
+  end
+
+  def load_sidebar_data
+    @chats = Chat.all
+    @recipes = Recipe.all
   end
 end
