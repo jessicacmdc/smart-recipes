@@ -14,9 +14,16 @@
   <body class="d-flex flex-column vh-100 background-color">
     <%= render "shared/navbar" %>
 
-    <main class="flex-grow-1">
-      <%= yield %>
-    </main>
+    <div class="container-fluid d-flex">
+      <% if user_signed_in? %>
+        <%= render 'shared/sidebar' %>
+      <% end %>
+
+      <main class="flex-grow-1 main-content">
+        <%= yield %>
+      </main>
+
+    </div>
 
     <%= render "shared/footer" %>
     <%= render "shared/flashes" %>
